@@ -1,0 +1,22 @@
+{
+  "name": "seo-dash",
+  "version": "1.0.0",
+  "description": "Wordpress dashboard widget using Reactjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "wp-scripts build",
+    "start": "wp-scripts start"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Bogere Goldsoft",
+  "license": "ISC",
+  "devDependencies": {
+    "@wordpress/scripts": "^23.3.0"
+  },
+  "dependencies": {
+    "recharts": "^2.5.0"
+  }
+}
