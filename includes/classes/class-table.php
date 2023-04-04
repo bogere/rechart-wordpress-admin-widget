@@ -1,9 +1,9 @@
 <?php
 /**
- * Football Team API
+ * Class Table 
  *
  * @category   Components
- * @package    football-team
+ * @package    seo-dash
  * @author     Bogere Goldsoft
  * @license    http://www.gnu.org/licenses/gpl-2.0.txt
  * @link       www.servicecops.com
