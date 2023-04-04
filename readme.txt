@@ -11,5 +11,11 @@ for large scale apps.
 	1. Upload the entire `seo_dash` folder to the `/wp-content/plugins/` directory.
 	2. Activate the plugin through the 'Plugins' menu in WordPress.
 
-== Description ==
-	- After installation, you will find Recharts Admin Dashboard widget 
+== Development ==
+	- After installation, for the development purposes go ahead install the nodejs modules
+	using this command... `npm install`
+	- then go ahead and run `npm start`
+	you will find Recharts Admin Dashboard widget  
+
+== Production ==
+- You can first run the command `npm run build` to create the built react app and 
