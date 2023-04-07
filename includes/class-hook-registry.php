@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Hook registry
  *
@@ -35,7 +33,7 @@ class Hook_Registry {
 	 */
 	private function add_hooks() {
 
-		// Enqueue Styles and Scripts
+		// Enqueue Styles and Scripts.
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'seo_dash_load_custom_scripts' ] );
 
@@ -43,9 +41,8 @@ class Hook_Registry {
 
 		add_action( 'rest_api_init', [ $this, 'seo_dash_handle_custom_rest_api' ] );
 
-		 // dealing with plugin activation
+		
 		register_activation_hook( SEO_DASH_PLUGIN_FILE, [ $this, 'after_plugin_is_activated' ] );
-		 // Actions.
 
 		register_deactivation_hook( SEO_DASH_PLUGIN_FILE, [ $this, 'after_deactivate_plugin' ] );
 	}
@@ -66,27 +63,32 @@ class Hook_Registry {
 		);
 	}
 
-	 /**
-	  *  schedule the job after the activating the plugin
-	  */
+	
+	/**
+	 * Perform the actions after activating the plugin
+	 *
+	 */
 	public function after_plugin_is_activated() {
 
-		// register the config options for codeable site
+		// register the config options for codeable site.
 		update_option( SEO_DASH_OPTIONS_KEY, 'no-expired-sites' );
 
-		// $this->seo_dash_create_graph_table();
 		$this->seo_dash_create_graph_tables();
 
 	}
 
-	/*
-	* Deactivate the plugin
-	*/
+	/**
+	 * Perform the actions after deactivating the plugin
+	 *
+	 */
 	public function after_deactivate_plugin() {
-		error_log( 'yeah i have been deactivated...' );
-		// wp_clear_scheduled_hook('hourly_synchronise_hook');
+		echo "I have deactivated the plugin";
 	}
 
+
+    /**
+	 * Add the admin dashboard widget 
+	 */
 	public function seo_dash_add_dashboard_widget() {
 		wp_add_dashboard_widget(
 			'dashboard_widget',
@@ -95,19 +97,18 @@ class Hook_Registry {
 		);
 	}
 
+	/**
+	 * Render the page for the admin dashboard widget
+	*/
 	public function seo_dash_render_dashboard_widget() {
 		require_once SEO_DASH_DIR . '/templates/app.php';
 	}
 
-	public function seo_dash_generate_random_data() {
-		error_log( 'Please randomly generate chart data for dashboard widget' );
-	}
-
 	public function seo_dash_create_graph_tables() {
 
-		$classDB = new ClassTable();
-		$classDB->seo_dash_create_graph_table();
-		$classDB->seo_dash_insert_sample_graph_data();
+		$class_db = new ClassTable();
+		$class_db->seo_dash_create_graph_table();
+		$class_db->seo_dash_insert_sample_graph_data();
 	}
 
 	/**
@@ -117,28 +118,22 @@ class Hook_Registry {
 		// DEclare our namespace
 		$namespace = 'myrest/v1';
 
-		// //register teh route for the graph data.
-		// register_rest_route($namespace, '/performance', array(
-		// 'methods' => WP_REST_Server::READABLE,
-		// 'callback' => [ $this, 'seo_dash_fetch_graph_data']
-		// ));
+		// register_rest_route(
+		// 	$namespace,
+		// 	'/project' . '/(?P<id>[\d]+)',
+		// 	[
+		// 		'methods'  => 'GET',
+		// 		'callback' => [ $this, 'get_project' ],
+		// 	// 'permission_callback' => '__return_true',
+		// 	]
+		// );
 
-		// register_rest_route($namespace, '/products/?P<id>\d+)', array(
-		// 'methods' => 'GET',
-		// 'callback' => 'seo_dash_fetch_graph_data'
-		// 'callback' => function($data){
-		// $product = $data['id'];
-		// return $product;
-		// }
-		// ));
-
-		// register_rest_route( $namespace, '/project/(?P<id>\d+)', [
-		// register_rest_route( $namespace, '/project/(?P<id>\d+)', [
 		register_rest_route(
 			$namespace,
-			'/project' . '/(?P<id>[\d]+)',
+			//'/project' . '/(?P<id>[\d]+)',
+			'project/',
 			[
-				'methods'  => 'GET',
+				'methods'  => 'POST',
 				'callback' => [ $this, 'get_project' ],
 			// 'permission_callback' => '__return_true',
 			]
@@ -156,11 +151,12 @@ class Hook_Registry {
 	// * @return \WP_HTTP_Response
 	// */
 	public function get_project( $request ) {
-		$params = $request->get_params();
+		//$params = $request->get_params();
 
-		$searchQuery = $params['id'];
+		//$search_query = $params['id'];
+         $params = $request->get_body();
 
-		$results = ClassTable::seo_dash_fetch_data_from_db( $searchQuery );
+		$results = ClassTable::seo_dash_fetch_data_from_db( $search_query );
 
 		$response = array(
 			'message' => $results,

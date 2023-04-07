@@ -1,7 +1,7 @@
 {
   "name": "seo-dash",
   "version": "1.0.0",
-  "description": "Wordpress dashboard widget using Reactjs",
+  "description": "Wordpress admin  dashboard widget using Reactjs",
   "main": "index.js",
   "scripts": {
     "build": "wp-scripts build",

@@ -16,7 +16,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // deny direct access to the plugin file by hackers
+	exit; // deny direct access to the plugin file by hackers.
 } // End if().
 
 if ( ! class_exists( 'SeoDash' ) ) {
@@ -131,17 +131,17 @@ if ( ! class_exists( 'SeoDash' ) ) {
 		private function includes() {
 
 			// require_once SEO_DASH_DIR . '/vendor/autoload.php';
-			require_once SEO_DASH_DIR . '/includes/classes/class-table.php';
+			require_once SEO_DASH_DIR . '/includes/classes/class-classtable.php';
 			require_once SEO_DASH_DIR . '/includes/class-hook-registry.php';
 		}
 	}
 
 	/**
-	 * Make Papa Site class instance available globally
+	 * Make Seo Dash class instance available globally
 	 */
-	function SeoDash() {
+	function seo_dash() {
 		return SeoDash::get_instance();
 	}
 
-	SeoDash();
-}// End if().
+	seo_dash();
+}
