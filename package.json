@@ -9,7 +9,7 @@
     "test:e2e": "wp-scripts test-e2e",
     "test:unit": "wp-scripts test-unit-js",
     "lint:php": "vendor/bin/phpcs",
-		"lint:php:fix": "vendor/bin/phpcbf"
+    "lint:php:fix": "vendor/bin/phpcbf"
   },
   "keywords": [
     "react"
@@ -17,12 +17,12 @@
   "author": "Bogere Goldsoft",
   "license": "ISC",
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@wordpress/scripts": "^23.3.0"
+    "@testing-library/jest-dom": "4.2.4",
+    "@testing-library/react": "9.3.2",
+    "@testing-library/user-event": "7.1.2",
+    "@wordpress/scripts": "23.3.0"
   },
   "dependencies": {
-    "recharts": "^2.5.0"
+    "recharts": "2.5.0"
   }
 }
