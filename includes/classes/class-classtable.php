@@ -102,10 +102,10 @@ class ClassTable {
 
 		$search_query = (int) $search_query;
 
-		if ( is_local_environment() ) {
-			error_log( 'search value' );
-			error_log( print_r( $search_query, true ) );
-		}
+		// if ( is_local_environment() ) {
+		// 	error_log( 'search value' );
+		// 	error_log( print_r( $search_query, true ) );
+		// }
 
 		$search_value = 3;
 		if ( $search_query === 3 ) { // last 3 days.
@@ -118,10 +118,10 @@ class ClassTable {
 			$search_value = 3;
 		}
 
-		if ( is_local_environment() ) {
-			error_log( 'search value' );
-			error_log( print_r( $search_value, true ) );
-		}
+		// if ( is_local_environment() ) {
+		// 	error_log( 'search value' );
+		// 	error_log( print_r( $search_value, true ) );
+		// }
 
 		// $query   = $wpdb->prepare( "SELECT * FROM $graph_table WHERE created_at > NOW() - INTERVAL ' " . $search_value . "' day" );
 		$query   = $wpdb->prepare( "SELECT * FROM $graph_table g WHERE g.created_at > NOW() - INTERVAL =%d  day", $search_value );

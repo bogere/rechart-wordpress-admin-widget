@@ -12,6 +12,9 @@
 
 namespace Seo\Dash;
 
+use \WP_REST_RESPONSE;
+use \WP_REST_Request;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -122,7 +125,7 @@ class Hook_Registry {
 		// 	$namespace,
 		// 	'/project' . '/(?P<id>[\d]+)',
 		// 	[
-		// 		'methods'  => 'GET',
+		// 		'methods'  => \WP_REST_Server::READABLE,
 		// 		'callback' => [ $this, 'get_project' ],
 		// 	// 'permission_callback' => '__return_true',
 		// 	]
@@ -130,8 +133,7 @@ class Hook_Registry {
 
 		register_rest_route(
 			$namespace,
-			//'/project' . '/(?P<id>[\d]+)',
-			'project/',
+			'/project',
 			[
 				'methods'  => 'POST',
 				'callback' => [ $this, 'get_project' ],
@@ -141,22 +143,34 @@ class Hook_Registry {
 
 	}
 
-	// /**
-	// * Get a single graph performance
-	// *
-	// * @since 0.0.1
-	// *
-	// * @param \WP_REST_Request $request Full details about the request
-	// *
-	// * @return \WP_HTTP_Response
-	// */
+	/**
+	* Get a single graph performance
+	*
+	* @since 0.0.1
+	*
+	* @param \WP_REST_Request $request Full details about the request
+	*
+	* @return \WP_HTTP_Response
+	*/
 	public function get_project( $request ) {
 		//$params = $request->get_params();
+		$params = $request->get_body_params();
 
 		//$search_query = $params['id'];
-         $params = $request->get_body();
+         //$params = $request->get_body();
+		 //$params = $_POST['number'];
+		 //$params = $request->get_param('id');
+		 //error_log("search query");
+		// error_log(print_r($params,true));
+		 //$params = $request->get_params();
+		//$id = $params[ 'id' ];
+		//$params = $request->get_param('number');
+		$id = $request['id'];
 
-		$results = ClassTable::seo_dash_fetch_data_from_db( $search_query );
+		error_log("search query xxxxxxxxxxxx");
+		error_log(print_r($params,true));
+
+		$results = ClassTable::seo_dash_fetch_data_from_db( $id );
 
 		$response = array(
 			'message' => $results,
@@ -178,6 +192,35 @@ class Hook_Registry {
 			),
 			200
 		);
+	}
+
+	/**
+	 * Get a single product
+	 *
+	 * @since 0.0.1
+	 *
+	 * @param \WP_REST_Request $request Full details about the request
+	 *
+	 * @return \WP_HTTP_Response
+	 */
+	public function get_item( $request) {
+		$params = $request->get_params();
+		$id = $params[ 'id' ];
+		
+		$response = new \WP_REST_Response( 0, 404, array() );
+
+		return $response;
+
+		return new \WP_REST_Response(
+			array(
+				'success' => true,
+				'value'   => array(
+					'message' => 'Performance graph is much available',
+				),
+			),
+			200
+		);
+
 	}
 }
 

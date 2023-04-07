@@ -26,7 +26,25 @@ import {
     },[])
 
     const fetchDatas = async (inputDay) => {
-        const res = await fetch(`/wp-json/myrest/v1/project/${inputDay}`)
+
+        //const res = await fetch(`/wp-json/myrest/v1/project/${inputDay}`)
+        //const postUrl = `/wp-json/myrest/v1/project`
+        const formData = {
+          'number': 12,
+          'period': 'days'
+        }
+        // const formData = new FormData({
+        //   'number': 12,
+        //   'period' : 'days'
+        // })
+        const options = {
+          method: 'POST',
+          headers: {
+          'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+          };
+         const res = await fetch(postUrl,options)
         const data = await res.json();
         console.log('performance graph',data);
         if (data.data.message) {
@@ -42,6 +60,7 @@ import {
 
     return (
       <React.Fragment>
+        <h3>Hello pipo</h3>
          <select 
              value={selectedDay}
              onChange={evt => updateSelectedInput(evt.target.value)}
