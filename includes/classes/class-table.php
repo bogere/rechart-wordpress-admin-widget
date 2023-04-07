@@ -51,7 +51,6 @@ class ClassTable {
 
     public function seo_dash_insert_sample_graph_data(){
         global $wpdb;
-        $sampleData = $this->seo_dash_get_sample_data();
         $table_name = $wpdb->prefix . "graph_table";
         $charset_collate = $wpdb->get_charset_collate();
 
