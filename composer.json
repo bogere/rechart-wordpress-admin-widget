@@ -1,0 +1,34 @@
+{
+    "name": "imransayed/aquila-features",
+    "description": "Rechart wordpress Admin widget",
+	"license": "GPL-2.0+",
+	"version": "1.0.0",
+	"keywords": [
+		"wordpress",
+		"plugin"
+	],
+	"require": {
+		"php": ">=5.4.0"
+	},
+	"homepage": "https://github.com/bogere/rechart-wordpress-admin-widget",
+	"require-dev": {
+		"wp-coding-standards/wpcs": "^2.3",
+		"phpcompatibility/phpcompatibility-wp": "^2.1"
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+    "authors": [
+        {
+            "name": "Bogere Goldsoft",
+            "email": "goldsoft25@gmail.com"
+        }
+    ],
+	"autoload": {
+		"psr-4": {
+			"AquilaFeatures\\": "src/"
+		}
+	}
+}

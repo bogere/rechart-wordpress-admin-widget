@@ -43,8 +43,6 @@ class Hook_Registry {
 
         add_action('rest_api_init', [$this, 'seo_dash_handle_custom_rest_api']);
         
-        //what about the filters
-        //add_filter('cron_schedules'. [$this, 'sch_add_custom_cron_interval']);
          //dealing with plugin activation
         register_activation_hook(SEO_DASH_PLUGIN_FILE, [$this, 'after_plugin_is_activated']);
          //Actions.
@@ -78,7 +76,8 @@ class Hook_Registry {
         update_option(SEO_DASH_OPTIONS_KEY, 'no-expired-sites' );  
              
     
-        $this->seo_dash_create_graph_table();
+        //$this->seo_dash_create_graph_table();
+        $this->seo_dash_create_graph_tables();
 
     }
 
@@ -94,7 +93,7 @@ class Hook_Registry {
     public function seo_dash_add_dashboard_widget() {
         wp_add_dashboard_widget(
             'dashboard_widget',
-            'Rechart Hello Dashboard Widget',
+            'Rechart Dashboard Widget',
             [$this, 'seo_dash_render_dashboard_widget']
         );
     }
@@ -109,26 +108,11 @@ class Hook_Registry {
     }
 
 
-    public function seo_dash_create_graph_table(){
-        global $wpdb;
-        $graph_table = $wpdb->prefix . "graph_table";
-        $charset_collate = $wpdb->get_charset_collate();
-        $sql = "CREATE TABLE $graph_table (
-               id mediumint(9) NOT NULL AUTO_INCREMENT,
-               name varchar(50) NOT NULL,
-               uv varchar(50) NOT NULL,
-               pv varchar(50) NOT NULL,
-               amount smallint(5) NOT NULL,
-               created_at timestamp NULL DEFAULT NULL
-               PRIMARY KEY  (id)
-             ) $charset_collate";
-
-
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        dbDelta( $sql );
-        // $classDB = new ClassTable();
-        // $classDB->seo_dash_create_graph_table();
-        // $classDB->seo_dash_insert_sample_graph_data();
+    public function seo_dash_create_graph_tables(){
+       
+        $classDB = new ClassTable();
+        $classDB->seo_dash_create_graph_table();
+        $classDB->seo_dash_insert_sample_graph_data();
     }
 
 
@@ -166,15 +150,15 @@ class Hook_Registry {
     }
 
 
-    /**
-	 * Get a single graph performance
-	 *
-	 * @since 0.0.1
-	 *
-	 * @param \WP_REST_Request $request Full details about the request
-	 *
-	 * @return \WP_HTTP_Response
-	 */
+    // /**
+	//  * Get a single graph performance
+	//  *
+	//  * @since 0.0.1
+	//  *
+	//  * @param \WP_REST_Request $request Full details about the request
+	//  *
+	//  * @return \WP_HTTP_Response
+	//  */
     public function get_project(  $request ) {
         $params = $request->get_params();
 

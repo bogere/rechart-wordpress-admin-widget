@@ -24,51 +24,59 @@ class ClassTable {
     /**
      * Class constructor
      */
-    //public function __construct() {
-    //    $this->add_hooks();
-    //}
-
-    public function init(){
-        //$this->school_pay_handle_reset_password();
+    public function __construct() {
+       
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     }
 
 
-    public function seo_dash_create_graph_table(){
+    public function seo_dash_create_graph_table() {
         global $wpdb;
-        $graph_table = $wpdb->prefix . "graph_table";
-        $charset_collate = $wpdb->get_charset_collate();
-        $sql = "CREATE TABLE IF NOT EXISTS $graph_table (
-               id mediumint(9) NOT NULL AUTO_INCREMENT,
-               name varchar(50) NOT NULL,
-               uv varchar(50) NOT NULL,
-               pv varchar(50) NOT NULL,
-               amount smallint(5) NOT NULL,
-               created_at timestamp NULL DEFAULT NULL
-               PRIMARY KEY  (id)
-             ) $charset_collate";
+        $table_name = $wpdb->prefix . 'graph_table';
 
+        $sql = "CREATE TABLE IF NOT EXISTS  {$table_name} (
+          `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+          `name` varchar(255) NOT NULL,
+          `pv` mediumint(9) NOT NULL DEFAULT 1000,
+          `uv` mediumint(9) NOT NULL DEFAULT 500,
+          `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          `amount` mediumint(9) NOT NULL DEFAULT 1000,
+          PRIMARY KEY (`id`)
+        ) DEFAULT CHARSET=utf8";
+        
+        dbDelta($sql);
 
-        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-        dbDelta( $sql );
     }
 
 
     public function seo_dash_insert_sample_graph_data(){
         global $wpdb;
         $sampleData = $this->seo_dash_get_sample_data();
-        $graph_table = $wpdb->prefix . "graph_table";
+        $table_name = $wpdb->prefix . "graph_table";
         $charset_collate = $wpdb->get_charset_collate();
 
-        foreach($sampleData as $data){
+        $personList = array('Messi', 'Ronald', 'Mary', 'Piller', 'Dubey');
 
+        foreach($personList as $person){
+            
+            $startDate = "03/01/2023";
+            $endDate = "03/07/2023";
+            $randomDate = $this->generateRandomDate($startDate, $endDate);
             $wpdb->insert( 
-                $graph_date, 
+                $table_name, 
+                // array( 
+                //     'name' => $data['name'], 
+                //     'uv' => $data['uv'],
+                //     'pv' => $data['pv'],  
+                //     'amount' => $data['amt'],
+                //     'created_at' => date('Y-m-d H:i:s')
+                // ),
                 array( 
-                    'name' => $data['name'], 
-                    'uv' => $data['uv'],
-                    'pv' => $data['pv'],  
-                    'amount' => $data['amt'],
-                    'created_at' => date('Y-m-d H:i:s')
+                    'name' => $person, 
+                    'uv' => $this->generateRandomNumbers(1000,3000),
+                    'pv' => $this->generateRandomNumbers(5000,7000),  
+                    'amount' => $this->generateRandomNumbers(5000,8000),
+                    'created_at' => $randomDate
                 ),
                 array(
                     '%s',
@@ -83,69 +91,6 @@ class ClassTable {
        
     }
 
-
-    private function seo_dash_get_sample_data(){
-        $sampleData = [
-           
-           [
-            'name' => 'Goldsoft',
-            'uv' => 4000,
-             'pv' => 2400,
-            'amt' => 2400,
-           ],
-           [
-            'name' => 'Kashyap',
-            'uv' => 2000,
-             'pv' => 9800,
-            'amt' => 2290,
-           ],
-           [
-            'name' => 'Mary',
-            'uv' => 3000,
-             'pv' => 9800,
-            'amt' => 1900,
-           ],
-           [
-            'name' => 'Piller',
-            'uv' => 2500,
-             'pv' => 1400,
-            'amt' => 5400,
-           ],
-           [
-            'name' => 'Dubey',
-            'uv' => 1200,
-             'pv' => 8500,
-            'amt' => 4400,
-           ],
-           [
-            'name' => 'John',
-            'uv' => 2200,
-             'pv' => 3400,
-            'amt' => 4300,
-           ],
-           [
-            'name' => 'Messi',
-            'uv' => 3200,
-             'pv' => 2400,
-            'amt' => 2400,
-           ],
-           [
-            'name' => 'Hazard',
-            'uv' => 2000,
-             'pv' => 3400,
-            'amt' => 2400,
-           ],
-           [
-            'name' => 'Vibhute',
-            'uv' => 2780,
-             'pv' => 3908,
-            'amt' => 2000,
-           ],
-          
-        ];
-        return $sampleData;
-    }
-
     /**
      * Fetch the graph data based on selected input
      */
@@ -154,6 +99,9 @@ class ClassTable {
         $graph_table = $wpdb->prefix . "graph_table";
 
         $searchQuery = (int) $searchQuery;
+        error_log("search value");
+        error_log(print_r($searchQuery,true));
+
         $searchValue = 3;
         if ($searchQuery == 3) { // last 3 days
             $searchValue = 3;
@@ -162,16 +110,39 @@ class ClassTable {
         }else if ($searchQuery == 30) { // last 30 days (month)
             $searchValue = 30;
         }else{
-            $searchValue = 12;
+            //$searchValue = 12;
+            $searchValue = 3;
         }
 
-
+        error_log("search value");
+        error_log(print_r($searchValue,true));
 
         $query = $wpdb->prepare("SELECT * FROM $graph_table WHERE created_at > NOW() - INTERVAL ' ". $searchValue . "' day");
         $results = $wpdb->get_results($query);
         return $results;
     }
 
+    /**
+     * Generate random numbers
+     */
+    private function generateRandomNumbers($minNumber, $maxiNumber){
+        return rand($minNumber,$maxiNumber);
+    }
+    
+    /**
+     *  Generate random date
+     */
+    private function generateRandomDate($firstDate, $secondDate, $format = 'Y-m-d'): string
+    {
+        $firstDateTimeStamp = strtotime($firstDate);
+        $secondDateTimeStamp = strtotime($secondDate);
+
+        if ($firstDateTimeStamp < $secondDateTimeStamp) {
+            return date($format, mt_rand($firstDateTimeStamp, $secondDateTimeStamp));
+        }
+
+        return date($format, mt_rand($secondDateTimeStamp, $firstDateTimeStamp));
+    }
     
     
 } 

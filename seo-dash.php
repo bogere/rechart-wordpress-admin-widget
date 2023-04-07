@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Seo Dash  Hello Widget
+ * Plugin Name:       Seo Dash Widget
  * Plugin URI:        https://www.kazilab.com/
  * Description:       PLugin to show the chart graph as dashboard widget 
  * Version:           1.0.0
