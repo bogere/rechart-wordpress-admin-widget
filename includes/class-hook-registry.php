@@ -12,9 +12,6 @@
 
 namespace Seo\Dash;
 
-use \WP_REST_RESPONSE;
-use \WP_REST_Request;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -49,18 +46,19 @@ class Hook_Registry {
 		register_deactivation_hook( SEO_DASH_PLUGIN_FILE, [ $this, 'after_deactivate_plugin' ] );
 	}
 
+	/**
+	 * Load the custom JS and styles for the plugin including built reactjs app
+	 */
 	public function seo_dash_load_custom_scripts() {
 
-		wp_enqueue_style( 'seo-dash-style', SEO_DASH_PLUGIN_URL . 'build/index.css' );
+		wp_enqueue_style( 'seo-dash-style', SEO_DASH_PLUGIN_URL . 'build/index.css', array(), '1.0.0', true );
 		wp_enqueue_script( 'seo-dash-script', SEO_DASH_PLUGIN_URL . 'build/index.js', array( 'wp-element' ), '1.0.0', true );
 
 		wp_localize_script(
 			'seo-dash-script',
 			'siteData',
 			array(
-				'ajaxurl'    => admin_url( 'admin-ajax.php' ),
-				'data_var_1' => 'value 1',
-				'data_var_2' => 'value 2',
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
 			)
 		);
 	}
@@ -81,7 +79,9 @@ class Hook_Registry {
 	 * Perform the actions after deactivating the plugin
 	 */
 	public function after_deactivate_plugin() {
-		echo 'I have deactivated the plugin';
+
+		ClassTable::seo_dash_drop_table_after_deactivation();
+
 	}
 
 	/**
@@ -102,6 +102,9 @@ class Hook_Registry {
 		require_once SEO_DASH_DIR . '/templates/app.php';
 	}
 
+	/**
+	 * Action for creating the graph table and populating data
+	 */
 	public function seo_dash_create_graph_tables() {
 
 		$class_db = new ClassTable();
@@ -113,7 +116,7 @@ class Hook_Registry {
 	 * Custom REST API handler for the graph data.
 	 */
 	public function seo_dash_handle_custom_rest_api() {
-		// Declare our namespace
+		// Declare our namespace.
 		$namespace = 'myrest/v1';
 
 		register_rest_route(
@@ -122,10 +125,8 @@ class Hook_Registry {
 			array(
 				'methods'  => 'GET',
 				'callback' => [ $this, 'seo_dash_get_performance_data' ],
-			// 'permission_callback' => '__return_true',
 			)
 		);
-
 	}
 
 	/**
@@ -133,11 +134,10 @@ class Hook_Registry {
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param \WP_REST_Request $request Full details about the request
+	 * @param \WP_REST_Request $request Full details about the request.
 	 *
 	 * @return \WP_HTTP_Response
 	 */
-
 	public function seo_dash_get_performance_data( \WP_REST_Request $request ) {
 		$search_query = $request->get_param( 'filter_value' );
 
@@ -153,13 +153,23 @@ class Hook_Registry {
 
 		$results = ClassTable::seo_dash_fetch_data_from_db( $search_query );
 
-		return new \WP_REST_Response(
-			array(
-				'success' => true,
-				'message' => $results,
-			),
-			200
-		);
+		if ( is_array( $results ) ) {
+			return new \WP_REST_Response(
+				array(
+					'success' => true,
+					'message' => $results,
+				),
+				200
+			);
+		} else {
+			return new \WP_REST_Response(
+				array(
+					'success' => false,
+					'message' => $results,
+				),
+				200
+			);
+		}
 
 	}
 }

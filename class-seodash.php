@@ -17,7 +17,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // deny direct access to the plugin file by hackers.
-} // End if().
+}
 
 if ( ! class_exists( 'SeoDash' ) ) {
 
@@ -47,7 +47,7 @@ if ( ! class_exists( 'SeoDash' ) ) {
 		 *
 		 * @var SeoDash
 		 */
-		private static $_instance = null;
+		private static $seo_instance = null;
 
 		/**
 		 * A dependency injection container
@@ -69,10 +69,10 @@ if ( ! class_exists( 'SeoDash' ) ) {
 		 * @return SeoDash
 		 */
 		public static function get_instance() {
-			if ( is_null( self::$_instance ) ) {
-				self::$_instance = new self();
+			if ( is_null( self::$seo_instance ) ) {
+				self::$seo_instance = new self();
 			}
-			return self::$_instance;
+			return self::$seo_instance;
 		}
 
 		/**
@@ -129,8 +129,6 @@ if ( ! class_exists( 'SeoDash' ) ) {
 		 * Include required files
 		 */
 		private function includes() {
-
-			// require_once SEO_DASH_DIR . '/vendor/autoload.php';
 			require_once SEO_DASH_DIR . '/includes/classes/class-classtable.php';
 			require_once SEO_DASH_DIR . '/includes/class-hook-registry.php';
 		}

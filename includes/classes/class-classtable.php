@@ -53,7 +53,6 @@ class ClassTable {
 	/**
 	 * Insert the sample charts data into the graph table
 	 */
-
 	public function seo_dash_insert_sample_graph_data() {
 		global $wpdb;
 		$table_name      = $wpdb->prefix . 'graph_table';
@@ -91,7 +90,7 @@ class ClassTable {
 	/**
 	 * Fetch the graph data based on selected input
 	 *
-	 * @param string $search_query
+	 * @param string $search_query for filtering graph data.
 	 *
 	 * @return array
 	 */
@@ -102,27 +101,30 @@ class ClassTable {
 		$search_query = (int) $search_query;
 
 		$search_value = 3;
-		if ( $search_query === 3 ) { // last 3 days.
+		if ( 3 === $search_query ) { // last 3 days.
 			$search_value = 3;
-		} elseif ( $search_query === 15 ) { // last 15 days.
+		} elseif ( 15 === $search_query ) { // last 15 days.
 			$search_value = 15;
-		} elseif ( $search_query === 30 ) { // last 30 days (month).
+		} elseif ( 30 === $search_query ) { // last 30 days (month).
 			$search_value = 30;
 		} else {
 			$search_value = $search_query;
 		}
 
-		$query = $wpdb->prepare( "SELECT * FROM $graph_table WHERE created_at > NOW() - INTERVAL ' " . $search_value . "' day" );
-		// $query   = $wpdb->prepare( "SELECT * FROM $graph_table g WHERE g.created_at > NOW() - INTERVAL =%d  day", $search_value );
+		$query = $wpdb->prepare( "SELECT * FROM $graph_table WHERE created_at > NOW() - INTERVAL  %d  day", $search_value ); // phpcs:ignore
+
 		$results = $wpdb->get_results( $query );
+		if ( $wpdb->last_error ) {
+			$results = 'Database errpr ! ' . $wpdb->last_error;
+		}
 		return $results;
 	}
 
 	/**
 	 * Generate random numbers
 	 *
-	 * @param int $min_number
-	 * @param int $maxi_number
+	 * @param int $min_number  minimum number.
+	 * @param int $maxi_number  maximum number.
 	 * @return int
 	 */
 	private function generate_random_numbers( $min_number, $maxi_number ) {
@@ -132,9 +134,9 @@ class ClassTable {
 	/**
 	 *  Generate random date
 	 *
-	 *  @param string $first_date
-	 *  @param string $second_date
-	 *  @param string $format
+	 *  @param string $first_date   The first date.
+	 *  @param string $second_date   The second date.
+	 *  @param string $format  The date format.
 	 *  @return date
 	 */
 	private function generate_random_date( $first_date, $second_date, $format = 'Y-m-d' ): string {
@@ -145,6 +147,16 @@ class ClassTable {
 			return gmdate( $format, mt_rand( $first_date_timestamp, $second_date_timestamp ) );
 		}
 
-		return date( $format, mt_rand( $second_date_timestamp, $first_date_timestamp ) );
+		return gm_date( $format, mt_rand( $second_date_timestamp, $first_date_timestamp ) );
+	}
+
+	/***
+	 * Drop the graph table after deactivation
+	 */
+	public static function seo_dash_drop_table_after_deactivation() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'graph_table';
+
+		$wpdb->query( "DROP TABLE IF EXISTS {$table_name}" ); // phpcs:ignore
 	}
 }
