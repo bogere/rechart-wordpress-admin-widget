@@ -44,7 +44,6 @@ class Hook_Registry {
 
 		add_action( 'rest_api_init', [ $this, 'seo_dash_handle_custom_rest_api' ] );
 
-		
 		register_activation_hook( SEO_DASH_PLUGIN_FILE, [ $this, 'after_plugin_is_activated' ] );
 
 		register_deactivation_hook( SEO_DASH_PLUGIN_FILE, [ $this, 'after_deactivate_plugin' ] );
@@ -66,10 +65,8 @@ class Hook_Registry {
 		);
 	}
 
-	
 	/**
 	 * Perform the actions after activating the plugin
-	 *
 	 */
 	public function after_plugin_is_activated() {
 
@@ -82,15 +79,13 @@ class Hook_Registry {
 
 	/**
 	 * Perform the actions after deactivating the plugin
-	 *
 	 */
 	public function after_deactivate_plugin() {
-		echo "I have deactivated the plugin";
+		echo 'I have deactivated the plugin';
 	}
 
-
-    /**
-	 * Add the admin dashboard widget 
+	/**
+	 * Add the admin dashboard widget
 	 */
 	public function seo_dash_add_dashboard_widget() {
 		wp_add_dashboard_widget(
@@ -102,7 +97,7 @@ class Hook_Registry {
 
 	/**
 	 * Render the page for the admin dashboard widget
-	*/
+	 */
 	public function seo_dash_render_dashboard_widget() {
 		require_once SEO_DASH_DIR . '/templates/app.php';
 	}
@@ -118,18 +113,20 @@ class Hook_Registry {
 	 * Custom REST API handler for the graph data.
 	 */
 	public function seo_dash_handle_custom_rest_api() {
-		// Declare our namespace 
+		// Declare our namespace
 		$namespace = 'myrest/v1';
 
-		register_rest_route( $namespace, '/performance', array(
-			'methods' => 'GET', 
-			'callback' => [$this, 'seo_dash_get_performance_data'],
+		register_rest_route(
+			$namespace,
+			'/performance',
+			array(
+				'methods'  => 'GET',
+				'callback' => [ $this, 'seo_dash_get_performance_data' ],
 			// 'permission_callback' => '__return_true',
-		  ) 
-	    );
+			)
+		);
 
 	}
-
 
 	/**
 	 * Get a performance data for the graphs
@@ -141,25 +138,25 @@ class Hook_Registry {
 	 * @return \WP_HTTP_Response
 	 */
 
-	public function seo_dash_get_performance_data( \WP_REST_Request $request){
+	public function seo_dash_get_performance_data( \WP_REST_Request $request ) {
 		$search_query = $request->get_param( 'filter_value' );
 
-		if (!is_numeric($search_query)) {
+		if ( ! is_numeric( $search_query ) ) {
 			return new \WP_REST_Response(
 				array(
 					'success' => false,
-					'message' => 'Failed input value, search value must be a number'
+					'message' => 'Failed input value, search value must be a number',
 				),
 				200
 			);
 		}
-        
+
 		$results = ClassTable::seo_dash_fetch_data_from_db( $search_query );
 
-        return new \WP_REST_Response(
+		return new \WP_REST_Response(
 			array(
 				'success' => true,
-				'message' => $results
+				'message' => $results,
 			),
 			200
 		);

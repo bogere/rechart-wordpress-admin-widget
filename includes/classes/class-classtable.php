@@ -50,7 +50,6 @@ class ClassTable {
 
 	}
 
-
 	/**
 	 * Insert the sample charts data into the graph table
 	 */
@@ -113,8 +112,8 @@ class ClassTable {
 			$search_value = $search_query;
 		}
 
-		$query   = $wpdb->prepare( "SELECT * FROM $graph_table WHERE created_at > NOW() - INTERVAL ' " . $search_value . "' day" );
-		//$query   = $wpdb->prepare( "SELECT * FROM $graph_table g WHERE g.created_at > NOW() - INTERVAL =%d  day", $search_value );
+		$query = $wpdb->prepare( "SELECT * FROM $graph_table WHERE created_at > NOW() - INTERVAL ' " . $search_value . "' day" );
+		// $query   = $wpdb->prepare( "SELECT * FROM $graph_table g WHERE g.created_at > NOW() - INTERVAL =%d  day", $search_value );
 		$results = $wpdb->get_results( $query );
 		return $results;
 	}
