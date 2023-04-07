@@ -118,84 +118,21 @@ class Hook_Registry {
 	 * Custom REST API handler for the graph data.
 	 */
 	public function seo_dash_handle_custom_rest_api() {
-		// DEclare our namespace
+		// Declare our namespace 
 		$namespace = 'myrest/v1';
 
-		// register_rest_route(
-		// 	$namespace,
-		// 	'/project' . '/(?P<id>[\d]+)',
-		// 	[
-		// 		'methods'  => \WP_REST_Server::READABLE,
-		// 		'callback' => [ $this, 'get_project' ],
-		// 	// 'permission_callback' => '__return_true',
-		// 	]
-		// );
-
-		register_rest_route(
-			$namespace,
-			'/project',
-			[
-				'methods'  => 'POST',
-				'callback' => [ $this, 'get_project' ],
+		register_rest_route( $namespace, '/performance', array(
+			'methods' => 'GET', 
+			'callback' => [$this, 'seo_dash_get_performance_data'],
 			// 'permission_callback' => '__return_true',
-			]
-		);
+		  ) 
+	    );
 
 	}
 
-	/**
-	* Get a single graph performance
-	*
-	* @since 0.0.1
-	*
-	* @param \WP_REST_Request $request Full details about the request
-	*
-	* @return \WP_HTTP_Response
-	*/
-	public function get_project( $request ) {
-		//$params = $request->get_params();
-		$params = $request->get_body_params();
-
-		//$search_query = $params['id'];
-         //$params = $request->get_body();
-		 //$params = $_POST['number'];
-		 //$params = $request->get_param('id');
-		 //error_log("search query");
-		// error_log(print_r($params,true));
-		 //$params = $request->get_params();
-		//$id = $params[ 'id' ];
-		//$params = $request->get_param('number');
-		$id = $request['id'];
-
-		error_log("search query xxxxxxxxxxxx");
-		error_log(print_r($params,true));
-
-		$results = ClassTable::seo_dash_fetch_data_from_db( $id );
-
-		$response = array(
-			'message' => $results,
-		);
-		wp_send_json_success( $response );
-
-	}
 
 	/**
-	 * fetch the sample graph data
-	 */
-	public function seo_dash_fetch_graph_data( $request ) {
-		return new WP_REST_RESPONSE(
-			array(
-				'success' => true,
-				'value'   => array(
-					'message' => 'Performance graph is much available',
-				),
-			),
-			200
-		);
-	}
-
-	/**
-	 * Get a single product
+	 * Get a performance data for the graphs
 	 *
 	 * @since 0.0.1
 	 *
@@ -203,20 +140,26 @@ class Hook_Registry {
 	 *
 	 * @return \WP_HTTP_Response
 	 */
-	public function get_item( $request) {
-		$params = $request->get_params();
-		$id = $params[ 'id' ];
-		
-		$response = new \WP_REST_Response( 0, 404, array() );
 
-		return $response;
+	public function seo_dash_get_performance_data( \WP_REST_Request $request){
+		$search_query = $request->get_param( 'filter_value' );
 
-		return new \WP_REST_Response(
+		if (!is_numeric($search_query)) {
+			return new \WP_REST_Response(
+				array(
+					'success' => false,
+					'message' => 'Failed input value, search value must be a number'
+				),
+				200
+			);
+		}
+        
+		$results = ClassTable::seo_dash_fetch_data_from_db( $search_query );
+
+        return new \WP_REST_Response(
 			array(
 				'success' => true,
-				'value'   => array(
-					'message' => 'Performance graph is much available',
-				),
+				'message' => $results
 			),
 			200
 		);
