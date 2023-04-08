@@ -42,7 +42,7 @@ is running in the development mode
 
 **Production:**
 
-`npm run plugin-zip` - It creates the zipped version of the plugin and you can distribute it to the users to upload to their site for activation
+`npm run build` - It creates the build version of the frontend and then upload the whole plugin  files to the wordpress/wp-contents/plugins to activate it
 
 
 ### Pull Request Formatting
