@@ -11,6 +11,9 @@ These instructions will help you to get the plugin up and running on your local 
 
 We recommend using these tools for the development of Recharts Admin.
 
+- Wordpress installation
+ Upload the entire `seo_dash` folder to the `/wp-content/plugins/` directory.
+
 - Make sure [PHPCS & WPCS](https://rajaamanullah.com/how-to-install-wordpress-coding-standards/) are installed and working properly
 
 ### Required WP Plugins:
@@ -32,6 +35,7 @@ Then proceed to install the php libraries using the composer tool
 
 `npm run lint:php` - After you have set up the PHPCodeSniffer and setting up the wordpress 
 coding standard files and then go ahead to run the above command
+This will help in formatting the written code to wordpress php coding standards
 
 Go ahead and activate the plugin and then visit the admin dashboard while the client 
 is running in the development mode
