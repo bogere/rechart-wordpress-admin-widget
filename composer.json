@@ -1,6 +1,6 @@
 {
-    "name": "imransayed/aquila-features",
-    "description": "Rechart wordpress Admin widget",
+	"name": "imransayed/aquila-features",
+	"description": "Rechart wordpress Admin widget",
 	"license": "GPL-2.0+",
 	"version": "1.0.0",
 	"keywords": [
@@ -20,12 +20,12 @@
 			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	},
-    "authors": [
-        {
-            "name": "Bogere Goldsoft",
-            "email": "goldsoft25@gmail.com"
-        }
-    ],
+	"authors": [
+		{
+			"name": "Bogere Goldsoft",
+			"email": "goldsoft25@gmail.com"
+		}
+	],
 	"autoload": {
 		"psr-4": {
 			"AquilaFeatures\\": "src/"
