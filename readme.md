@@ -42,8 +42,7 @@ is running in the development mode
 
 **Production:**
 
-`npm run build` - It creates a permanent built frontend app and the go ahead and activate 
-the plugin
+`npm run plugin-zip` - It creates the zipped version of the plugin and you can distribute it to the users to upload to their site for activation
 
 
 ### Pull Request Formatting

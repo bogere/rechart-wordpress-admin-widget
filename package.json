@@ -14,7 +14,8 @@
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
     "eslint:lint": "eslint  --fix src/**/*.js",
-    "eslint:format": "prettier src/**/*.js --write. --config ./.prettierrc"
+    "eslint:format": "prettier src/**/*.js --write. --config ./.prettierrc",
+    "plugin-zip": "wp-scripts plugin-zip"
 	},
 	"keywords": [
 		"react"
