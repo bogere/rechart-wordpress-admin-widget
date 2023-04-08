@@ -58,7 +58,7 @@ class ClassTable {
 		$table_name      = $wpdb->prefix . 'graph_table';
 		$charset_collate = $wpdb->get_charset_collate();
 
-		$person_list = array( 'Messi', 'Ronald', 'Mary', 'Piller', 'Dubey' );
+		$person_list = array( 'Messi', 'Ronald', 'Mary', 'Piller', 'Dubey', 'John', 'Nick', 'Joseph' );
 
 		foreach ( $person_list as $person ) {
 

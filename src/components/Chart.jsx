@@ -12,6 +12,7 @@ import {
 
 const inputDayList = [
 	{ label: '3 days', value: 3 },
+	{ label: '7 days', value: 7 },
 	{ label: '15 days', value: 15 },
 	{ label: 'Last Month', value: 30 },
 ];
