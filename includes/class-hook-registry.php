@@ -49,7 +49,11 @@ class Hook_Registry {
 	/**
 	 * Load the custom JS and styles for the plugin including built reactjs app
 	 */
-	public function seo_dash_load_custom_scripts() {
+	public function seo_dash_load_custom_scripts($hook) {
+
+		if ($hook != 'index.php') {
+		   return;
+		}
 
 		wp_enqueue_style( 'seo-dash-style', SEO_DASH_PLUGIN_URL . 'build/index.css', array(), '1.0.0', true );
 		wp_enqueue_script( 'seo-dash-script', SEO_DASH_PLUGIN_URL . 'build/index.js', array( 'wp-element' ), '1.0.0', true );
@@ -125,6 +129,7 @@ class Hook_Registry {
 			array(
 				'methods'  => 'GET',
 				'callback' => [ $this, 'seo_dash_get_performance_data' ],
+				'permission_callback' => '__return_true'
 			)
 		);
 	}
