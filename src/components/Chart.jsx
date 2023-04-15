@@ -9,17 +9,24 @@ import {
 	Legend,
 	ResponsiveContainer,
 } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
-const inputDayList = [
-	{ label: '3 days', value: 3 },
-	{ label: '7 days', value: 7 },
-	{ label: '15 days', value: 15 },
-	{ label: 'Last Month', value: 30 },
-];
+
+
 
 export default function Chart() {
 	const [ graphData, setGraphData ] = useState();
 	const [ selectedDay, setSelectedDay ] = useState();
+
+	const { t } = useTranslation();
+
+	const inputDayList = [
+		{ label: `3 ${t('days')}`, value: 3 },
+		{ label: `7 ${t('days')}`, value: 7 },
+		{ label: `15 ${t('days')}`, value: 15 },
+		{ label:  t('last-month'), value: 30 },
+	];
+	
 
 	useEffect( () => {
 		fetchDatas( 12 ); //Last 12 days

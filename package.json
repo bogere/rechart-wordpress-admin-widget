@@ -13,9 +13,9 @@
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
-        "eslint:lint": "eslint  --fix src/**/*.js",
-        "eslint:format": "prettier src/**/*.js --write. --config ./.prettierrc",
-        "plugin-zip": "wp-scripts plugin-zip"
+		"eslint:lint": "eslint  --fix src/**/*.js",
+		"eslint:format": "prettier src/**/*.js --write. --config ./.prettierrc",
+		"plugin-zip": "wp-scripts plugin-zip"
 	},
 	"keywords": [
 		"react"
@@ -35,6 +35,8 @@
 		"prettier": "npm:wp-prettier@^2.6.2"
 	},
 	"dependencies": {
+		"i18next": "^22.4.14",
+		"react-i18next": "^12.2.0",
 		"recharts": "2.5.0"
 	}
 }
