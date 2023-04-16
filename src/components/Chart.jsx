@@ -48,14 +48,21 @@ export default function Chart() {
 
 	return (
 		<React.Fragment>
-			<select
-				value={ selectedDay }
-				onChange={ ( evt ) => updateSelectedInput( evt.target.value ) }
-			>
-				{ inputDayList.map( ( k ) => {
-					return <option value={ k.value }>{ k.label }</option>;
-				} ) }
-			</select>
+			    <div className='select-container'>
+				    <label>Filter </label>
+			        <select
+				       value={ selectedDay }
+				       onChange={ ( evt ) => updateSelectedInput( evt.target.value ) }
+			        >
+				          { inputDayList.map( ( k ) => {
+					        return (
+						       <option value={ k.value } className='option-item'>
+								   { k.label }
+						       </option>
+						)
+				       } ) }
+			        </select>
+				</div>
 			<br></br>
 			<ResponsiveContainer width="100%" height={ 400 }>
 				<BarChart
@@ -72,8 +79,8 @@ export default function Chart() {
 					<YAxis />
 					<Tooltip />
 					<Legend />
-					<Bar dataKey="pv" fill="#8884d8" />
-					<Bar dataKey="uv" fill="#82ca9d" />
+					<Bar dataKey="pv" fill="#0088FE" />
+					<Bar dataKey="uv" fill="#00C49F" />
 				</BarChart>
 			</ResponsiveContainer>
 		</React.Fragment>

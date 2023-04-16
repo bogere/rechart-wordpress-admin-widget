@@ -1,7 +1,45 @@
 #jobplace {
+    
+    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen-Sans,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;
+
     .app-title {
         font-size: 1.5em;
         font-weight: bold;
         margin-bottom: 1em;
+    } 
+    
+    .select-container{
+        width: auto;
+        border-radius: 15px;
+
+        select{
+            &::after {
+                content: '';
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%) rotate(45deg);
+                width: 6px;
+                height: 6px;
+                border-right: 2px solid #fff;
+                border-bottom: 2px solid #fff;
+            }
+            &:hover {
+                background: #222222;
+            }
+
+            .option-item{
+                color: #fff;
+                text-transform: capitalize;
+                width: 100%;
+                height: 30px;
+                padding: 0 15px;
+                line-height: 30px;
+                cursor: pointer;
+            }
+        }
     }
+
 } 
+
+
